@@ -6,7 +6,6 @@ Created on Mon Aug  1 21:00:39 2016
 """
 
 import scipy as sp
-import matplotlib.pyplot as plt
 
 
 def linear_mapping(c, I=100, threshold=10):
@@ -18,9 +17,13 @@ def linear_mapping(c, I=100, threshold=10):
 
     return 1
 
-x = sp.arange(-2, 1, 0.1)
-y = sp.arange(-1.5, 1.5, 0.1)
-Real_c, Imaginary_c = sp.meshgrid(x, y, sparse=True)
+points = 10
+xmin = -2
+xmax = 1
+ymin = -1.5
+ymax = 1.5
 
-for re, im in Real_c, Imaginary_c:
-    print re, im
+x = sp.linspace(xmin, xmax, points)
+y = sp.linspace(ymin, ymax, points)
+Real_c, Imaginary_c = sp.meshgrid(x, y, sparse=True)
+z = [linear_mapping(complex(re, im)) for re in x for im in y]
