@@ -27,3 +27,4 @@ x = sp.linspace(xmin, xmax, points)
 y = sp.linspace(ymin, ymax, points)
 Real_c, Imaginary_c = sp.meshgrid(x, y, sparse=True)
 z = [linear_mapping(complex(re, im)) for re in x for im in y]
+# test
