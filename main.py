@@ -9,7 +9,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 
 
-def mandelbrot_mapping(c, I=100, threshold=10):
+def naive_mapping(c, I=100, threshold=10):
     z = 0
     for i in range(I):
         z = z ** 2 + c
@@ -26,16 +26,43 @@ def mandelbrot_set_naive(Re_c, Im_c):
 
     for i in xrange(Re_c_size):
         for j in xrange(Im_c_size):
-            M[i, j] = mandelbrot_mapping(complex(Re_c[i] + 1j * Im_c[j]))
+            M[i, j] = naive_mapping(complex(Re_c[i] + 1j * Im_c[j]))
 
     return M
 
 
-def plot_mandelbrot_set(Re_c, Im_c, M):
-    Real_c, Imaginary_c = sp.meshgrid(Re_c, Im_c)
-    plt.pcolor(Real_c, Imaginary_c, M_naive.T, cmap=plt.cm.hot)
+def mandelbrot_set_vectorized(C, I=100, threshold=10):
+    iterations = sp.zeros(C.shape)
+    z = sp.zeros(C.shape, sp.complex64)
+
+    for i in range(I):
+        not_done = z.real ** 2 + z.imag ** 2 < threshold ** 2
+        iterations[not_done] = i
+        z[not_done] = z[not_done] ** 2 + C[not_done]
+
+    iterations = (iterations + 1) / I
+    iterations[iterations == I - 1] = 0
+    return iterations
+
+#    for it in range(maxiter):
+#        notdone = sp.less(z.real*z.real + z.imag*z.imag, threshold)
+#        output[notdone] = it
+#        z[notdone] = z[notdone] ** 2 + c[notdone]
+#    output[output == maxiter-1] = 0
+#    return output
+
+
+def plot_mandelbrot_set(Real_c, Imaginary_c, M, implementation):
+    if (implementation == 'naive'):
+        M_set = M.T
+    else:
+        M_set = M
+
+    plt.pcolor(Real_c, Imaginary_c, M_set, cmap=plt.cm.hot)
     plt.xlabel(r'$\mathcal{R}(c)$')
     plt.ylabel(r'$\mathcal{I}(c)$')
+    plt.title(r'$Mandelbrot\ set\ \mathcal{M}(c),\ Implementation\colon\ $' +
+              '$' + implementation + '.$')
 
 
 # Input parameters
@@ -48,9 +75,12 @@ ymax = 1.5
 # Real and imaginary axis
 Re_c = sp.linspace(xmin, xmax, points)
 Im_c = sp.linspace(ymin, ymax, points)
+Real_c, Imaginary_c = sp.meshgrid(Re_c, Im_c)
 
 # Mandelbrot set computations
-M_naive = mandelbrot_set_naive(Re_c, Im_c)
+M_naive = mandelbrot_set_naive(Real_c, Imaginary_c)
+M_vectorized = mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)
 
 # Plotting
-plot_mandelbrot_set(Re_c, Im_c, M_naive)
+plot_mandelbrot_set(Real_c, Imaginary_c, M_naive, 'Naive')
+plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Vectorized')
