@@ -53,11 +53,11 @@ def plot_mandelbrot_set(Real_c, Imaginary_c, Mandelbrot_c, implementation):
     plt.ylabel(r'$\mathcal{I}(c)$')
     plt.title(r'$Mandelbrot\ set\ \mathcal{M}(c),\ Implementation\colon\ $' +
               '$' + implementation + '.$')
-    plt.savefig('test_diff.pdf')
+    plt.savefig('Mandelbrot_' + implementation + '.pdf')
 
 if __name__ == '__main__':
     # Input parameters
-    points = 5000
+    points = 500
 
     # Real and imaginary axis
     Re_c = sp.linspace(-2, 1, points)  # (xmin, xmax, points)

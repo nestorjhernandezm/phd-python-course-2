@@ -1,0 +1,9 @@
+# compiled Packages #
+#####################
+*.pyc
+
+
+# Image files #
+###############
+*.pdf
+
