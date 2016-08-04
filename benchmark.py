@@ -17,7 +17,8 @@ import time
 import mandelbrot as mnb
 
 methods = ['mnb.mandelbrot_set_naive(Re_c, Im_c)',
-           'mnb.mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)']
+           'mnb.mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)',
+            ]
 
 points = 500
 

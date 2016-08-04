@@ -6,11 +6,11 @@ Created on Thu Aug  4 21:06:35 2016
 """
 
 # miniproject_mandelbrot.pyx
-cimport numpy as np
+import numpy as np
 cimport cython
 
 
-def mandelbrot_cython(C, I=100, threshold=10):
+def mandelbrot_set_cython(C, I=100, threshold=10):
     """
     Calculate the Mandelbrot set in a vectorized manner
 

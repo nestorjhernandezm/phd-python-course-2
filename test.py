@@ -23,6 +23,8 @@ class TestMandelbrot(unittest.TestCase):
     def setUp(self):
         # This will contain a list of the methods we will test
         self.methods = ['mnb.mandelbrot_set_vectorized(' +
+                        'self.Real_c + 1j * self.Imaginary_c)',
+                        'mnb.mandelbrot_cython(' +
                         'self.Real_c + 1j * self.Imaginary_c)']
         # Input parameters
         self.points = 500

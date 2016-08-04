@@ -5,6 +5,7 @@ Created on Mon Aug  1 21:00:39 2016
 @author: nestor
 """
 
+from mandelbrot_c import mandelbrot_set_cython
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -65,9 +66,11 @@ if __name__ == '__main__':
     Real_c, Imaginary_c = np.meshgrid(Re_c, Im_c)
 
     # Mandelbrot set computations
-    M_naive = mandelbrot_set_naive(Re_c, Im_c)
-    M_vectorized = mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)
+#    M_naive = mandelbrot_set_naive(Re_c, Im_c)
+#    M_vectorized = mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)
+    M_cython = mandelbrot_set_cython(Real_c + 1j * Imaginary_c)
 
 #    # Plotting
 #    plot_mandelbrot_set(Real_c, Imaginary_c, M_naive, 'Naive')
 #    plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Vectorized')
+#    plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Cython')
