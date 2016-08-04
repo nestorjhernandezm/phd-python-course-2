@@ -29,7 +29,7 @@ def mandelbrot_set_naive(Re_c, Im_c):
         for j in xrange(Im_c_size):
             M[i, j] = naive_mapping(complex(Re_c[i] + 1j * Im_c[j]))
 
-    return M.T  # Just to plot properly
+    return M.T  # Just to plot properly later
 
 
 def mandelbrot_set_vectorized(C, I=100, threshold=10):
@@ -53,24 +53,21 @@ def plot_mandelbrot_set(Real_c, Imaginary_c, Mandelbrot_c, implementation):
     plt.ylabel(r'$\mathcal{I}(c)$')
     plt.title(r'$Mandelbrot\ set\ \mathcal{M}(c),\ Implementation\colon\ $' +
               '$' + implementation + '.$')
+    plt.savefig('test_diff.pdf')
 
+if __name__ == '__main__':
+    # Input parameters
+    points = 5000
 
-## Input parameters
-#points = 1000
-#xmin = -2
-#xmax = 1
-#ymin = -1.5
-#ymax = 1.5
-#
-## Real and imaginary axis
-#Re_c = sp.linspace(xmin, xmax, points)
-#Im_c = sp.linspace(ymin, ymax, points)
-#Real_c, Imaginary_c = sp.meshgrid(Re_c, Im_c)
-#
-## Mandelbrot set computations
-#M_naive = mandelbrot_set_naive(Re_c, Im_c)
-#M_vectorized = mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)
-#
-## Plotting
-#plot_mandelbrot_set(Real_c, Imaginary_c, M_naive, 'Naive')
-#plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Vectorized')
+    # Real and imaginary axis
+    Re_c = sp.linspace(-2, 1, points)  # (xmin, xmax, points)
+    Im_c = sp.linspace(-1.5, 1.5, points)  # (ymin, ymax, points)
+    Real_c, Imaginary_c = sp.meshgrid(Re_c, Im_c)
+
+    # Mandelbrot set computations
+    M_naive = mandelbrot_set_naive(Re_c, Im_c)
+    M_vectorized = mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)
+
+#    # Plotting
+#    plot_mandelbrot_set(Real_c, Imaginary_c, M_naive, 'Naive')
+#    plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Vectorized')
