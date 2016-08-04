@@ -5,7 +5,7 @@ Created on Mon Aug  1 21:00:39 2016
 @author: nestor
 """
 
-import scipy as sp
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -23,7 +23,7 @@ def naive_mapping(c, I=100, threshold=10):
 def mandelbrot_set_naive(Re_c, Im_c):
     Re_c_size = len(Re_c)
     Im_c_size = len(Im_c)
-    M = sp.zeros([Re_c_size, Im_c_size])
+    M = np.zeros([Re_c_size, Im_c_size])
 
     for i in xrange(Re_c_size):
         for j in xrange(Im_c_size):
@@ -33,8 +33,8 @@ def mandelbrot_set_naive(Re_c, Im_c):
 
 
 def mandelbrot_set_vectorized(C, I=100, threshold=10):
-    iterations = sp.zeros(C.shape)
-    z = sp.zeros(C.shape, sp.complex64)
+    iterations = np.zeros(C.shape)
+    z = np.zeros(C.shape, np.complex64)
 
     for i in range(I):
         not_done = z.real ** 2 + z.imag ** 2 < threshold ** 2
@@ -60,9 +60,9 @@ if __name__ == '__main__':
     points = 500
 
     # Real and imaginary axis
-    Re_c = sp.linspace(-2, 1, points)  # (xmin, xmax, points)
-    Im_c = sp.linspace(-1.5, 1.5, points)  # (ymin, ymax, points)
-    Real_c, Imaginary_c = sp.meshgrid(Re_c, Im_c)
+    Re_c = np.linspace(-2, 1, points)  # (xmin, xmax, points)
+    Im_c = np.linspace(-1.5, 1.5, points)  # (ymin, ymax, points)
+    Real_c, Imaginary_c = np.meshgrid(Re_c, Im_c)
 
     # Mandelbrot set computations
     M_naive = mandelbrot_set_naive(Re_c, Im_c)
