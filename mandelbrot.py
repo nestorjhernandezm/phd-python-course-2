@@ -70,7 +70,7 @@ if __name__ == '__main__':
 #    M_vectorized = mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)
     M_cython = mandelbrot_set_cython(Real_c + 1j * Imaginary_c)
 
-#    # Plotting
+    # Plotting
 #    plot_mandelbrot_set(Real_c, Imaginary_c, M_naive, 'Naive')
 #    plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Vectorized')
 #    plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Cython')

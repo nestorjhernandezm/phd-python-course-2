@@ -7,6 +7,7 @@ Created on Thu Aug  4 21:06:35 2016
 
 # miniproject_mandelbrot.pyx
 import numpy as np
+cimport numpy as np
 cimport cython
 
 
