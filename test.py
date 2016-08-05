@@ -25,10 +25,10 @@ class TestMandelbrot(unittest.TestCase):
         # This will contain a list of the methods we will test
         self.methods = ['mnb.mandelbrot_set_vectorized(' +
                         'self.Real_c + 1j * self.Imaginary_c)',
-                        'mandelbrot_cython(' +
+                        'mandelbrot_set_cython(' +
                         'self.Real_c + 1j * self.Imaginary_c)']
         # Input parameters
-        self.points = 500
+        self.points = 100
         self.error_percentage = 5  # Tolerance for error percentage
 
         # Real and imaginary axis
@@ -49,12 +49,10 @@ class TestMandelbrot(unittest.TestCase):
     # The reason why doing each test separately (and not one with all the
     # methods) is to observe if a method could be problematic.
     def test_mandelbrot_vectorized(self):
-        self.assertTrue(np.isclose(self.correct_percentage(self, 0), 1,
-                                   atol=1e-3))
+        self.assertTrue(np.isclose(self.correct_percentage(0), 1, atol=1e-3))
 
     def test_mandelbrot_cython(self):
-        self.assertTrue(np.isclose(self.correct_percentage(self, 1), 1,
-                                   atol=1e-3))
+        self.assertTrue(np.isclose(self.correct_percentage(1), 1, atol=1e-3))
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestMandelbrot)
