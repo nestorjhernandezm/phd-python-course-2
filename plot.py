@@ -19,7 +19,7 @@ def plot_mandelbrot_set(Real_c, Imaginary_c, Mandelbrot_c, implementation):
     plt.ylabel(r'$\mathcal{I}(c)$')
     plt.title(r'$Mandelbrot\ set\ \mathcal{M}(c),\ Implementation\colon\ $' +
               '$' + implementation + '.$')
-#    plt.savefig('Mandelbrot_' + implementation + '.pdf')
+    plt.savefig('Mandelbrot_' + implementation + '.pdf')
 
 
 # Input parameters
