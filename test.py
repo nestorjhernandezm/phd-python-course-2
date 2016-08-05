@@ -14,6 +14,7 @@ function!
 """
 
 import unittest
+from mandelbrot_c import mandelbrot_set_cython
 import numpy as np
 import mandelbrot as mnb
 
@@ -24,7 +25,7 @@ class TestMandelbrot(unittest.TestCase):
         # This will contain a list of the methods we will test
         self.methods = ['mnb.mandelbrot_set_vectorized(' +
                         'self.Real_c + 1j * self.Imaginary_c)',
-                        'mnb.mandelbrot_cython(' +
+                        'mandelbrot_cython(' +
                         'self.Real_c + 1j * self.Imaginary_c)']
         # Input parameters
         self.points = 500
@@ -36,16 +37,24 @@ class TestMandelbrot(unittest.TestCase):
         self.Real_c, self.Imaginary_c = np.meshgrid(Re_c, Im_c)
         self.M_naive = mnb.mandelbrot_set_naive(Re_c, Im_c)
 
-    def test_mandelbrot_vectorized(self):
-
-        M = eval(self.methods[0])
+    def correct_percentage(self, index):
+        M = eval(self.methods[index])
         abs_error = abs((M - self.M_naive) / self.M_naive)
         total_correct = len(np.where(abs_error < self.error_percentage)[0])
 
-        # Ensure that at least 99.99% of the computed values in the set
-        # are correct
-        self.assertTrue(np.allclose(
-            float(total_correct / (self.points ** 2)), 1, atol=1e-3))
+        return float(total_correct / (self.points ** 2))
+
+    # Ensure for each method that the computation returns at least
+    # 99.99% correct points in the plane for the given regions in setUp
+    # The reason why doing each test separately (and not one with all the
+    # methods) is to observe if a method could be problematic.
+    def test_mandelbrot_vectorized(self):
+        self.assertTrue(np.isclose(self.correct_percentage(self, 0), 1,
+                                   atol=1e-3))
+
+    def test_mandelbrot_cython(self):
+        self.assertTrue(np.isclose(self.correct_percentage(self, 1), 1,
+                                   atol=1e-3))
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestMandelbrot)
