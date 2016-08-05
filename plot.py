@@ -13,7 +13,7 @@ import mandelbrot as mnb
 
 
 def plot_mandelbrot_set(Real_c, Imaginary_c, Mandelbrot_c, implementation):
-    plt.figure()
+#    plt.figure()
     plt.pcolor(Real_c, Imaginary_c, Mandelbrot_c, cmap=plt.cm.hot)
     plt.xlabel(r'$\mathcal{R}(c)$')
     plt.ylabel(r'$\mathcal{I}(c)$')
