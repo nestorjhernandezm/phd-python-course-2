@@ -18,7 +18,7 @@ def naive_mapping(c, I=100, threshold=10):
 
     return 1
 
-
+@profile
 def mandelbrot_set_naive(Re_c, Im_c):
     Re_c_size = len(Re_c)
     Im_c_size = len(Im_c)
@@ -30,7 +30,7 @@ def mandelbrot_set_naive(Re_c, Im_c):
 
     return M.T  # Just to plot properly later
 
-
+@profile
 def mandelbrot_set_vectorized(C, I=100, threshold=10):
     iterations = np.zeros(C.shape)
     z = np.zeros(C.shape, np.complex64)
