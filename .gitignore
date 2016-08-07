@@ -1,7 +1,11 @@
-# compiled Packages #
-#####################
+# Compiled Files #
+##################
 *.pyc
+*.lprof
 
+# Saved Data #
+##############
+*.npz
 
 # Image files #
 ###############
