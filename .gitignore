@@ -4,6 +4,7 @@
 *.c
 *.pyc
 *.lprof
+build/
 
 # Saved Data #
 ##############
