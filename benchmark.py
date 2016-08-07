@@ -10,7 +10,6 @@ Code to call all our different functions and a basis for possible
 profiling
 
 """
-
 import numpy as np
 import time
 

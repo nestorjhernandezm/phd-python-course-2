@@ -13,7 +13,7 @@ import mandelbrot as mnb
 
 
 def plot_mandelbrot_set(Real_c, Imaginary_c, Mandelbrot_c, implementation):
-#    plt.figure()
+    plt.figure()
     plt.pcolor(Real_c, Imaginary_c, Mandelbrot_c, cmap=plt.cm.hot)
     plt.xlabel(r'$\mathcal{R}(c)$')
     plt.ylabel(r'$\mathcal{I}(c)$')
@@ -31,11 +31,11 @@ Im_c = np.linspace(-1.5, 1.5, points)  # (ymin, ymax, points)
 Real_c, Imaginary_c = np.meshgrid(Re_c, Im_c)
 
 # Mandelbrot set computations
-#M_naive = mnb.mandelbrot_set_naive(Re_c, Im_c)
+M_naive = mnb.mandelbrot_set_naive(Re_c, Im_c)
 M_vectorized = mnb.mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c)
 M_cython = mandelbrot_set_cython(Real_c + 1j * Imaginary_c)
 
 # Plotting
-#plot_mandelbrot_set(Real_c, Imaginary_c, M_naive, 'Naive')
+plot_mandelbrot_set(Real_c, Imaginary_c, M_naive, 'Naive')
 plot_mandelbrot_set(Real_c, Imaginary_c, M_vectorized, 'Vectorized')
 plot_mandelbrot_set(Real_c, Imaginary_c, M_cython, 'Cython')
