@@ -19,12 +19,12 @@ def mandelbrot_set_cython(np.ndarray[dtype_t, ndim=2] C):
     Calculate the Mandelbrot set in a vectorized manner
 
     Input:
-    C: Set of complex64 numbers for which the Mandelbrot set is going
+    C: Set of complex numbers for which the Mandelbrot set is going
     to be computed
 
     Output:
-    M: Array of float64 values indicating the stability of the calculated
-    points
+    iterations: Array of double values indicating the stability of the
+    calculated points
     """
     cdef int I = 100
     cdef int threshold = 10
