@@ -1,5 +1,7 @@
 # Compiled Files #
 ##################
+*.so
+*.c
 *.pyc
 *.lprof
 
@@ -10,4 +12,8 @@
 # Image files #
 ###############
 *.pdf
+
+# Profile files #
+#################
+*.html
 
