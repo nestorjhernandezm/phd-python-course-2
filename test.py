@@ -26,16 +26,17 @@ class TestMandelbrot(unittest.TestCase):
         self.methods = ['mnb.mandelbrot_set_vectorized(' +
                         'self.Real_c + 1j * self.Imaginary_c)',
                         'mandelbrot_set_cython(' +
-                        'self.Real_c + 1j * self.Imaginary_c)']
+                        'self.Real_c + 1j * self.Imaginary_c)',
+                        'mnb.mandelbrot_set_numba(self.Re_c, self.Im_c)']
         # Input parameters
         self.points = 100
         self.error_percentage = 5  # Tolerance for error percentage
 
         # Real and imaginary axis
-        Re_c = np.linspace(-2, 1, self.points)  # (xmin, xmax, points)
-        Im_c = np.linspace(-1.5, 1.5, self.points)  # (ymin, ymax, points)
-        self.Real_c, self.Imaginary_c = np.meshgrid(Re_c, Im_c)
-        self.M_naive = mnb.mandelbrot_set_naive(Re_c, Im_c)
+        self.Re_c = np.linspace(-2, 1, self.points)  # (xmin, xmax, points)
+        self.Im_c = np.linspace(-1.5, 1.5, self.points)  # (ymin, ymax, points)
+        self.Real_c, self.Imaginary_c = np.meshgrid(self.Re_c, self.Im_c)
+        self.M_naive = mnb.mandelbrot_set_naive(self.Re_c, self.Im_c)
 
     def correct_percentage(self, index):
         M = eval(self.methods[index])
@@ -53,6 +54,10 @@ class TestMandelbrot(unittest.TestCase):
 
     def test_mandelbrot_cython(self):
         self.assertTrue(np.isclose(self.correct_percentage(1), 1, atol=1e-3))
+
+    def test_mandelbrot_numba(self):
+        self.assertTrue(np.isclose(self.correct_percentage(2), 1, atol=1e-3))
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestMandelbrot)

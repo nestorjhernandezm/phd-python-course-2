@@ -23,7 +23,11 @@ dataset = np.load('./mandelbrot_datasets.npz')
 Real_c = dataset['Real_c']
 Imaginary_c = dataset['Imaginary_c']
 
+Re_c = dataset['Re_c']
+Im_c = dataset['Im_c']
+
 # Plotting
 plot_mandelbrot_set(Real_c, Imaginary_c, dataset['M_naive'], 'Naive')
 plot_mandelbrot_set(Real_c, Imaginary_c, dataset['M_vectorized'], 'Vectorized')
 plot_mandelbrot_set(Real_c, Imaginary_c, dataset['M_cython'], 'Cython')
+plot_mandelbrot_set(Re_c, Im_c, dataset['M_numba'], 'Numba')
