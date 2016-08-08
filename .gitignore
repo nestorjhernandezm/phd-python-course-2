@@ -1,9 +1,20 @@
-# compiled Packages #
-#####################
+# Compiled Files #
+##################
+*.so
+*.c
 *.pyc
+*.lprof
+build/
 
+# Saved Data #
+##############
+*.npz
 
 # Image files #
 ###############
 *.pdf
+
+# Profile files #
+#################
+*.html
 
