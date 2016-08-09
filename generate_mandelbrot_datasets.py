@@ -32,9 +32,17 @@ M_multiprocessing = mnb.mandelbrot_set_multiprocessing(Real_c, Imaginary_c,
                                                        cores)
 print 'Multiprocessing implementation computed'
 
+datasets = {'naive': M_naive,
+            'vectorized': M_vectorized,
+            'cython': M_cython,
+            'numba': M_numba,
+            'multiprocessing': M_multiprocessing
+            }
+
 print 'Saving data...'
-np.savez('./mandelbrot_datasets.npz',
-         Re_c=Re_c, Im_c=Im_c, Real_c=Real_c, Imaginary_c=Imaginary_c,
-         M_naive=M_naive, M_vectorized=M_vectorized, M_cython=M_cython,
-         M_numba=M_numba, M_multiprocessing=M_multiprocessing)
+np.savez('./mandelbrot_axis.npz', Real_c=Real_c, Imaginary_c=Imaginary_c)
+
+for implementation in datasets.keys():
+    np.savez('./mandelbrot_' + implementation + '_data.npz',
+             M=datasets[implementation])
 print 'Data saved'
