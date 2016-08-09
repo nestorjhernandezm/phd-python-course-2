@@ -26,7 +26,7 @@ found in [1_].
 
 .. _1: https://en.wikipedia.org/wiki/Mandelbrot_set
 
-In our case, the initial point is :math:`z_{0} = 0` and maximum number
+For this project, the initial point is :math:`z_{0} = 0` and maximum number
 of iterations per point is :math:`I = 100`. To verify the convergence,
 we check that every iteration is below a given threshold, e.g.
 :math:`z_{i} < T = 10`. In the mini-project, we refer to this variable
@@ -43,47 +43,45 @@ In principle, this is a heavy computation given the amount of points,
 but fortunately highly parallelizable since the computation of
 a given point does not depend on the others. A major objective of this
 mini-project is to present and verify different computational methods
-that optimize a basic naïve algorithm.
+that optimize a basic naïve algorithm. In what follows, we provide a short
+description of the mini-project.
 
+Project Structure
+-----------------
+The project has a simple structure where all the files and scripts need
+to be allocated in a single folder. The functionalities of the mini-project
+have been separated in different scripts and single module ``mandelbrot.py``
+that contains the different tested methods. In both the repository and
+sent ``.zip`` file, we have included all this source code that:
+(i) generates the datasets of each method (in
+``generate_mandelbrot_datasets.py``), (ii) plots the data for each set (in
+``plot.py``), verifies the correctness of a method with unit test functionality
+(in ``test``), benchmarks the time for each method to compute a solution
+(in ``benchmark.py``) and includes a simple script that show the speed
+gain when employing multiprocessing. For simplicity, details about
+the algorithm have omitted since it is basic and known.
 
+Computational Methods
+---------------------
+Five methods with different tools are considered for the mini-project:
+Naîve, Vectorized, Numba, Cython and Multiprocessing. For the last one,
+we include a variable number of cores to be included as an input argument.
+All the used methods are defined in the ``mandelbrot.py`` module, except
+the Cython one which is defined in the ``miniproject_mandelbrot.pyx`` file.
+In the ``mandelbrot.py`` the ``@profile`` decorator is included, but
+commented, if a developer wants to profile a code that calls the function
+of given method. For example, if it is desited to profile the methods
+when using ``my_script.py``, this can be made by doing::
 
-
-
-
-.. for these equations, we are given a set initial
-.. conditionsand parameters to compute the states all times. We achieve this in
-.. the mini-project by computing the states (ODE solver) of the discretized
-.. version of [1_] by the Euler method [2_]. For the mini-project, it was
-.. required to plot the states in XYZ space and the planes: XY, XZ and YZ.
-.. In our case, this is made by storing each of these plots in a PDF file.
-
-.. .. _2: https://en.wikipedia.org/wiki/Euler_method
-
-.. In what follows, we provide a short description of the mini-project.
-
-.. Project Structure
-.. -----------------
-.. The project has the structure from the boilerplate suggested originally
-.. at the course. Thus, we make use of the same ``lorenz``, ``cases`` and
-.. ``test`` folders. In each of use, we have included all the source code
-.. required to compute the solutions (in ``lorenz``), plot the data for
-.. each testcase (in ``cases``) and make use of a basic unit test functionality
-.. to verify simply correct outputs of the ODE solver (in ``test``).
-
-.. The basic files from the boilerplate were modified to have all the
-.. required functionalities from the project while keeping the same structure.
-.. For the implemented functions, all the documentation has been added through
-.. very descriptive Python docstrings. For each function, its docstring
-.. describes: the returned value, behaviour and input parameters of the
-.. function are described.
+  kernprof -l -v my_script.py
 
 .. Getting Started
 .. ---------------
 .. As a first step, once having decompressed the ``.zip`` file or cloning
 .. the repository, you can generate all the examples data by doing::
 
-..   cd ~/phd-python-1/lorenz
-..   python run.py
+..   cd ~/phd-python-2/
+..   python generate_mandelbrot_datasets.py 8
 
 .. This creates a CSV file named ``data.csv`` locally at
 .. ``~/phd-python-1/lorenz``. The structure of this file is described in
