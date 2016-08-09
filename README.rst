@@ -28,12 +28,23 @@ found in [1_].
 
 In our case, the initial point is :math:`z_{0} = 0` and maximum number
 of iterations per point is :math:`I = 100`. To verify the convergence,
-the threshold :math:`T = 100`. In the mini-project, we refer to this
-variable as ``threshold``.
+we check that every iteration is below a given threshold, e.g.
+:math:`z_{i} < T = 100`. In the mini-project, we refer to this variable
+simply as ``threshold``.
+
+The purpose of the mini-project is to calculate the set and plot it.
+To do so, we calculate if a point belongs to the set for a grid of
+:math:`5000 \times 5000` points. This is made by picking 5000 points
+equally spaced from:math:`-2 \leq \matchcal{R}(c) \leq 1` and the same for
+:math:`-1.5 \leq \matchcal{I}(c) \leq 1.5`.
 
 
-.. Normally, for these equations, we are given a set initial conditions
-.. and parameters to compute the states all times. We achieve this in
+
+
+
+
+.. for these equations, we are given a set initial
+.. conditionsand parameters to compute the states all times. We achieve this in
 .. the mini-project by computing the states (ODE solver) of the discretized
 .. version of [1_] by the Euler method [2_]. For the mini-project, it was
 .. required to plot the states in XYZ space and the planes: XY, XZ and YZ.
