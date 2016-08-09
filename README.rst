@@ -29,14 +29,21 @@ found in [1_].
 In our case, the initial point is :math:`z_{0} = 0` and maximum number
 of iterations per point is :math:`I = 100`. To verify the convergence,
 we check that every iteration is below a given threshold, e.g.
-:math:`z_{i} < T = 100`. In the mini-project, we refer to this variable
+:math:`z_{i} < T = 10`. In the mini-project, we refer to this variable
 simply as ``threshold``.
 
 The purpose of the mini-project is to calculate the set and plot it.
 To do so, we calculate if a point belongs to the set for a grid of
-:math:`5000 \times 5000` points. This is made by picking 5000 points
-equally spaced from :math:`-2 \leq \mathcal{R}(c) \leq 1` and the same for
+:math:`\mathcal{R}(c) = 5000 \times \mathcal{I}(c) 5000` points. This is
+made by picking 5000 points equally spaced from
+:math:`-2 \leq \mathcal{R}(c) \leq 1` and the same for
 :math:`-1.5 \leq \mathcal{I}(c) \leq 1.5`.
+
+In principle, this is a heavy computation given the amount of points,
+but fortunately highly parallelizable since the computation of
+a given point does not depend on the others. A major objective of this
+mini-project is to present and verify different computational methods
+that optimize a basic naïve algorithm.
 
 
 
