@@ -4,6 +4,7 @@ Created on Tue Aug  9 13:37:12 2016
 
 @author: nestor
 """
+import sys
 import numpy as np
 import time
 import matplotlib.pyplot as plt
@@ -11,7 +12,7 @@ import matplotlib.pyplot as plt
 from mandelbrot_c import mandelbrot_set_cython
 import mandelbrot as mnb
 
-points = 3000
+points = 5000
 
 # Real and imaginary axis
 Re_c = np.linspace(-2, 1, points)  # (xmin, xmax, points)
@@ -26,19 +27,17 @@ vectorized = toc
 print('{:30s} : {:10.2e} [s]'.format(vectorized_method, toc))
 
 # Multiprocessing plot
-print "Speed Gain Computation"
-max_cores = 1
+print 'Speed gain computation...'
+max_cores = int(sys.argv[1])
 cores = np.arange(1, max_cores + 1)
 gains = np.zeros((max_cores, 1))
 
-
 for core in cores:
-    m = 'mnb.mandelbrot_set_multiprocessing(Real_c, Imaginary_c, ' + \
-        str(core) + ')'
     tic = time.time()
-    y = eval(m)
+    y = mnb.mandelbrot_set_multiprocessing(Real_c, Imaginary_c, core)
     toc = time.time() - tic
-    print('Cores for Multiprocessing, {:30s}  : {:10.2e} [s]'.format(
+
+    print('Cores for Multiprocessing, {:30s} : {:10.2e} [s]'.format(
         str(core), toc))
     gains[core - 1] = vectorized / toc
 
@@ -46,5 +45,6 @@ plt.plot(cores, gains, marker='.')
 plt.grid('on')
 plt.xlabel('Number of Cores for Multiprocessing')
 plt.ylabel('Computation Speed Gain')
-plt.title('Multiprocessing Gain')
+plt.title('Multiprocessing Gain. Points per Real and Imaginary axis: ' +
+          str(points))
 plt.savefig('multiprocessing_gain.pdf')
