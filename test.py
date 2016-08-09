@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug  4 17:47:47 2016
+Created on Thu Aug  2 17:47:47 2016
 
 @author: nestor
 """
@@ -13,6 +13,7 @@ function!
 
 """
 import unittest
+import sys
 from mandelbrot_c import mandelbrot_set_cython
 import numpy as np
 import mandelbrot as mnb
@@ -22,7 +23,7 @@ class TestMandelbrot(unittest.TestCase):
 
     def setUp(self):
         # Number of cores for the multiprocessing test
-        self.cores = '2'
+        self.cores = sys.argv[1]
 
         # This will contain a list of the methods to be tested
         self.methods = ['mnb.mandelbrot_set_vectorized(' +
@@ -34,7 +35,7 @@ class TestMandelbrot(unittest.TestCase):
                         'self.Real_c, self.Imaginary_c, ' + self.cores + ')']
 
         # Real and imaginary axis
-        self.points = 1000  # (for both the real and imaginary axes)
+        self.points = 5000  # (for both the real and imaginary axes)
         self.Re_c = np.linspace(-2, 1, self.points)  # (xmin, xmax, points)
         self.Im_c = np.linspace(-1.5, 1.5, self.points)  # (ymin, ymax, points)
         self.Real_c, self.Imaginary_c = np.meshgrid(self.Re_c, self.Im_c)
