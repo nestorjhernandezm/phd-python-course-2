@@ -77,9 +77,11 @@ def mandelbrot_set_multiprocessing(Real_c, Imaginary_c, cores):
     Real_chunks = np.array_split(Real_c, cores)
     Imaginary_chunks = np.array_split(Imaginary_c, cores)
 
-    arguments = ()
-    for i in range(cores):
-        arguments += (Real_chunks[i] + 1j * Imaginary_chunks[i], )
+    arguments = tuple([re + 1j * im for re, im in zip(Real_chunks,
+                                                      Imaginary_chunks)])
+#    arguments = ()
+#    for i in range(cores):
+#        arguments += (Real_chunks[i] + 1j * Imaginary_chunks[i], )
 
     pool = mp.Pool(processes=cores)
     results = pool.map(mandelbrot_set_vectorized, arguments)
