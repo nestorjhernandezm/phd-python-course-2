@@ -35,8 +35,8 @@ simply as ``threshold``.
 The purpose of the mini-project is to calculate the set and plot it.
 To do so, we calculate if a point belongs to the set for a grid of
 :math:`5000 \times 5000` points. This is made by picking 5000 points
-equally spaced from:math:`-2 \leq \matchcal{R}(c) \leq 1` and the same for
-:math:`-1.5 \leq \matchcal{I}(c) \leq 1.5`.
+equally spaced from :math:`-2 \leq \mathcal{R}(c) \leq 1` and the same for
+:math:`-1.5 \leq \mathcal{I}(c) \leq 1.5`.
 
 
 
