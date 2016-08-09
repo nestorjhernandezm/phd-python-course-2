@@ -40,8 +40,6 @@ datasets = {'naive': M_naive,
             }
 
 print 'Saving data...'
-np.savez('./mandelbrot_axis.npz', Real_c=Real_c, Imaginary_c=Imaginary_c)
-
 for implementation in datasets.keys():
     np.savez('./mandelbrot_' + implementation + '_data.npz',
              M=datasets[implementation])
