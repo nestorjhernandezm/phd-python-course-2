@@ -27,7 +27,7 @@ print('{:30s} : {:10.2e} [s]'.format(vectorized_method, toc))
 
 # Multiprocessing plot
 print "Speed Gain Computation"
-max_cores = 8
+max_cores = 1
 cores = np.arange(1, max_cores + 1)
 gains = np.zeros((max_cores, 1))
 

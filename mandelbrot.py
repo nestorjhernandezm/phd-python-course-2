@@ -7,6 +7,7 @@ Created on Mon Aug  1 21:00:39 2016
 import numpy as np
 #from numba import jit
 import multiprocessing as mp
+import numexpr as ne
 
 
 def naive_mapping(c, I=100, threshold=10):
@@ -33,15 +34,16 @@ def mandelbrot_set_naive(Re_c, Im_c):
     return M.T  # Just to plot properly later
 
 
-#@profile
+@profile
 def mandelbrot_set_vectorized(C, I=100, threshold=10):
     iterations = np.zeros(C.shape)
     z = np.zeros(C.shape, np.complex64)
 
     for i in range(I):
-        not_done = z.real ** 2 + z.imag ** 2 < threshold ** 2
+        not_done = ne.evaluate(
+            'z.real * z.real + z.imag * z.imag < threshold ** 2')
         iterations[not_done] = i
-        z[not_done] = z[not_done] ** 2 + C[not_done]
+        z = ne.evaluate('where(not_done, z * z + C, z)')
 
     iterations = (iterations + 1) / I
     iterations[iterations == I] = 0
@@ -72,17 +74,13 @@ def mandelbrot_set_vectorized(C, I=100, threshold=10):
 #
 #    return M.T  # Just to plot properly later
 
-
+#@profile
 def mandelbrot_set_multiprocessing(Real_c, Imaginary_c, cores):
     Real_chunks = np.array_split(Real_c, cores)
     Imaginary_chunks = np.array_split(Imaginary_c, cores)
 
     arguments = tuple([re + 1j * im for re, im in zip(Real_chunks,
                                                       Imaginary_chunks)])
-#    arguments = ()
-#    for i in range(cores):
-#        arguments += (Real_chunks[i] + 1j * Imaginary_chunks[i], )
-
     pool = mp.Pool(processes=cores)
     results = pool.map(mandelbrot_set_vectorized, arguments)
     return np.concatenate(results)
