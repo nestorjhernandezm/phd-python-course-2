@@ -68,7 +68,7 @@ Naîve, Vectorized, Numba, Cython and Multiprocessing. For the last one,
 we include a variable number of cores to be included as an input argument.
 All the used methods are defined in the ``mandelbrot.py`` module, except
 the Cython one which is defined in the ``miniproject_mandelbrot.pyx`` file.
-In the ``mandelbrot.py`` the ``\\@profile`` decorator is included, but
+In the ``mandelbrot.py`` the ``@ profile`` decorator is included, but
 commented, if a developer wants to profile a code that calls the function
 of given method. For example, if it is desited to profile the methods
 when using ``my_script.py``, this can be made by doing::
