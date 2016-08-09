@@ -20,13 +20,16 @@ to clone the repository. If something does not work, let the author know.
 
 For simplicity, we assume that you have clone or stored your repository
 in ``~/phd-python-2/``. The mini-project is based in the Mandelbrot set.
-This set contains all the elements for which the equation :math:`z_{i+1} = z_i^2 + c,\ i \in [0,\ldots, i_{max}]`, with :math:`c \in \mathbb{C}` the
+This set contains all the elements for which the equation :math:`z_{i+1} = z_i^2 + c,\ i \in [0,1, \ldots, I]`, with :math:`c \in \mathbb{C}` the
 tested number does not diverge. A good introductory description can be
 found in [1_].
 
 .. _1: https://en.wikipedia.org/wiki/Mandelbrot_set
 
-Typically, the initial point is :math:`z_{0} = 0`.
+In our case, the initial point is :math:`z_{0} = 0` and maximum number
+of iterations per point is :math:`I = 100`. To verify the convergence,
+the threshold :math:`T = 100`. In the mini-project, we refer to this
+variable as ``threshold``.
 
 
 .. Normally, for these equations, we are given a set initial conditions
