@@ -34,7 +34,7 @@ simply as ``threshold``.
 
 The purpose of the mini-project is to calculate the set and plot it.
 To do so, we calculate if a point belongs to the set for a grid of
-:math:`\mathcal{R}(c) = 5000 \times \mathcal{I}(c) 5000` points. This is
+:math:`\mathcal{R}(c) = 5000 \times \mathcal{I}(c) = 5000` points. This is
 made by picking 5000 points equally spaced from
 :math:`-2 \leq \mathcal{R}(c) \leq 1` and the same for
 :math:`-1.5 \leq \mathcal{I}(c) \leq 1.5`.
@@ -68,82 +68,141 @@ Naîve, Vectorized, Numba, Cython and Multiprocessing. For the last one,
 we include a variable number of cores to be included as an input argument.
 All the used methods are defined in the ``mandelbrot.py`` module, except
 the Cython one which is defined in the ``miniproject_mandelbrot.pyx`` file.
-In the ``mandelbrot.py`` the ``@````profile`` decorator is included, but
-commented, if a developer wants to profile a code that calls the function
-of given method. For example, if it is desited to profile the methods
+In the ``mandelbrot.py`` the ``profile`` decorator is included, but
+commented, in case a developer wants to profile a code that calls the function
+of given method. For example, if it is desired to profile the methods
 when using ``my_script.py``, this can be made by uncommenting the
 the decorators in ``mandelbrot.py`` and doing::
 
+  cd ~/phd-python-2/
   kernprof -l -v my_script.py
 
-.. Getting Started
-.. ---------------
-.. As a first step, once having decompressed the ``.zip`` file or cloning
-.. the repository, you can generate all the examples data by doing::
+About the Numba Method
+----------------------
+A short disclaimer is that, the ``.zip`` file sent for the mini-project
+evaluation does not contain the data related to the Numba method since
+the computer where the methods where tested did not have neither Numba
+nor Conda installed. However, the Numba was tested in another computer
+and its functionality was verified for both the method, plotting and
+its tests. So, you should be able to try this method without any issues.
+If you find problem with this method, please contact the author.
 
-..   cd ~/phd-python-2/
-..   python generate_mandelbrot_datasets.py 8
+Cython binaries
+---------------
+For the Cython binaries, it is required to generate the library according
+your architecture, Python and NumPy distributions. To do so, before
+starting with the project, run::
 
-.. This creates a CSV file named ``data.csv`` locally at
-.. ``~/phd-python-1/lorenz``. The structure of this file is described in
-.. the docstring of the ``save_data`` function in the
-.. ``~/phd-python-1/lorenz/filehandling.py`` module. Basically, the idea
-.. is to vertically stack all the parameters and states, available
-.. ``data`` input variable and store them as CSV.
+  cd ~/phd-python-2/
+  python setup.py build_ext --inplace
 
-.. Basic Parameters
-.. ----------------
-.. To generate all the solutions, we simply used the initial conditions:
-.. ``x0 = 0.01``, ``y0 = 0`` and ``z0 = 0``. For the Euler-based solver,
-.. we used a total number of points and step size of: ``N = 5000`` and
-.. ``t_delta = 0.01``. This generated all our solutions properly and
-.. in a reasonable amount of time.
+This should properly create the ``mandelbrot_c.so`` binary generated from
+the ``miniproject_mandelbrot.c`` file and the ``build`` folder. These
+two files and that folder are all the required items to properly use the
+Cython method. Once this is done, it is now possible to generate all
+the datasets.
+
+Getting Started
+---------------
+Once having decompressed the ``.zip`` file or cloning
+the repository, you can generate all the datasets by doing::
+
+  cd ~/phd-python-2/
+  python generate_mandelbrot_datasets.py CORES
+
+Where ``CORES`` is the number of cores that you want to pass to the
+multiprocessing function, for example:
+``python generate_mandelbrot_datasets.py 8``. This creates 5 ``.npz`` files
+named ``mandelbrot_[method]_data.npz`` for each of the mentioned methods
+that stores the computed datasets. The dataset is a simple 2D numpy array
+that contains the computed point stability of the given method. Each data
+file is barely more than 200 MB since an array of 25.000.000 elements, each
+of 64 bits is stored. The total to generate datasets is around 6 minutes in
+an Intel i7 computer of 8 cores (without including the Numba method).
+
+Plotting
+--------
+For plotting the data for all the datasets, simply do::
+
+  cd ~/phd-python-2/
+  python plot.py
+
+The plotting functionality is available in ``plot.py`` and the plots
+are stored locally. The ``imshow`` function from ``matplotlib.pyplot``
+was adapted to store the resulting PDF image files. To control the image
+resolution, the ``dpi`` parameter is used when storing an image.
+
+Unit Testing
+------------
+A functionality for unit testing the sets computation is included in
+``~/phd-python-1/test/test.py``. To test the accuracy of a given method,
+the percentual relative error of all the points against
+the naïve implementation is calculated. Then, all points within a 5% error
+are considered good. If the total amount of correct points is more than
+the 99.95%, we consider that the method test and implementation is correct.
+The tests take around 13 minutes in an Intel i7 computer of 8 cores
+(without including the Numba method). You can check this by running and
+observing, for example::
+
+  cd ~/phd-python-2/
+  python test.py 8
+  test_mandelbrot_cython (__main__.TestMandelbrot) ... 100.0% of correct values
+  ok
+  test_mandelbrot_multiprocessing (__main__.TestMandelbrot) ... Cores for test:   8. 100.0% of correct values
+  ok
+  test_mandelbrot_vectorized (__main__.TestMandelbrot) ... 100.0% of correct   values
+  ok
+
+  ----------------------------------------------------------------------
+  Ran 3 tests in 777.144s
+
+  OK
+
+Benchmarks
+----------
+The methods processing time are done ``benchmark.py``. To run and observe
+the benchmark results (similarly like the example shown below), simply type::
+
+  cd ~/phd-python-2/
+  python benchmark.py 8
+  Points per axis = 5000
+  mnb.mandelbrot_set_naive(Re_c, Im_c) :   2.36e+02 [s]
+  mnb.mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c) :   1.37e+01 [s]
+  mandelbrot_set_cython(Real_c + 1j * Imaginary_c) :   4.08e+01 [s]
+  mnb.mandelbrot_set_multiprocessing(Real_c, Imaginary_c, 8) :   1.19e+01 [s]
 
 
-.. Plotting
-.. --------
-.. For plotting the data for a given testcase, simply do::
+Speed Processing Gain of Multiprocessing
+----------------------------------------
+The gain of multiprocessing against the vectorized method is shown by running
+(and observing something similar to:) ::
+  cd ~/phd-python-2/
+  python multiprocessing_gain.py 8
+  mnb.mandelbrot_set_vectorized(Real_c + 1j * Imaginary_c) :   1.32e+01 [s]
+  Speed gain computation...
+  Cores for Multiprocessing, 1                              :   1.52e+01 [s]
+  Cores for Multiprocessing, 2                              :   1.29e+01 [s]
+  Cores for Multiprocessing, 3                              :   1.25e+01 [s]
+  Cores for Multiprocessing, 4                              :   1.24e+01 [s]
+  Cores for Multiprocessing, 5                              :   1.22e+01 [s]
+  Cores for Multiprocessing, 6                              :   1.21e+01 [s]
+  Cores for Multiprocessing, 7                              :   1.20e+01 [s]
+  Cores for Multiprocessing, 8                              :   1.20e+01 [s]
 
-..   cd ~/phd-python-1/cases
-..   python testcase1.py  # For example for the testcase 1
-..   python testcase2.py  # For example for the testcase 2 and so on..
+At the end of this computation, there should be ``multiprocessing_gain.pdf``
+file showing a plot of the gain. At the time of this writing, it has been
+noticed that the multiprocessing implementation does not specifically fix
+the number of cores but the number of processes used in the computation
+instead.
 
-.. Those scripts simply call a generic ``caseX.py`` script in the same
-.. ``~/phd-python-1/cases`` that checks for the required parameters from
-.. a dictionary and call the Python Pandas API for simple plotting.
-.. The plotting scripts and other related plotting functionalities are
-.. available in ``plot.py``. Once a testcase X is ran, you should observe
-.. a new folder called ``caseX_files`` in the ``~/phd-python-1/cases``
-.. that contains all the required 2D and 3D plots.
+Final comment
+-------------
+As with the first mini-project, the source code and structure of this project
+was intended to be as easy as possible. I hope that you find it easy as well.
+Finally, I want to highly thank the course instructors Postdoc
+Tobias Lindstrøm Jensen and Prof. Thomas Arildsen for their help during
+the submission of this mini-project.
 
-.. Also, you can test to run these testcases without running ``run.py``.
-.. Here, if the ``caseX.py`` notices that the file is not available, it
-.. simply creates a ``data_caseX.csv`` and stores it in the respective
-.. folder.
-
-.. Unit Testing
-.. ------------
-.. A basic functionality for unit testing the solver is included in
-.. ``~/phd-python-1/test/test.py``. For simplicity, it is only included
-.. for the solver to show its purpose and functionality. You can check this by running (and observing)::
-
-..   cd ~/phd-python-1/test
-..   python test.py
-..   test_initial_condition (__main__.TestComputeStates) ... ok
-..   test_known_outputs (__main__.TestComputeStates) ... ok
-..   test_zero_output (__main__.TestComputeStates) ... ok
-
-..    ----------------------------------------------------------------------
-..    Ran 3 tests in 0.000s
-
-..    OK
-
-.. Final comment
-.. -------------
-.. The mini-project source code and structure was intended to be as easy and
-.. self-explanatory as possible, with proper inline comments added for
-.. non-obvious commands. I hope that you find it easy as well.
-
-.. Happy reading!
-.. Best,
-.. Nestor J. Hernandez M.
+Happy reading!
+Best,
+Nestor J. Hernandez M.
