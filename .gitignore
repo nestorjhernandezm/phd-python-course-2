@@ -9,6 +9,7 @@ build/
 # Saved Data #
 ##############
 *.npz
+*.txt
 
 # Image files #
 ###############
